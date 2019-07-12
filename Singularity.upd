@@ -23,14 +23,17 @@ apt-get install -y wget
 
 apt-get install -y libgtk2.0-dev
 
-echo 'export PATH=/opt/conda/bin:$PATH' > /etc/profile.d/conda.sh && \
-    wget --quiet https://repo.continuum.io/archive/Anaconda3-4.4.0-Linux-x86_64.sh -O ~/anaconda.sh && \
-    /bin/bash ~/anaconda.sh -b -p /opt/conda && \
-    rm ~/anaconda.sh
+
+# download and install Anaconda
+CONDA_INSTALL_PATH="/usr/local/anaconda3"
+wget https://repo.continuum.io/archive/Anaconda3-2019.03-Linux-x86_64.sh
+chmod +x Anaconda3-2019.03-Linux-x86_64.sh
+./Anaconda3-2019.03-Linux-x86_64.sh -b -p $CONDA_INSTALL_PATH
+
 
 #install pip
 
-export PATH=/opt/conda/bin:$PATH
+export PATH=/usr/local/anaconda3/bin:$PATH
 
 conda install -c anaconda pip
 
@@ -44,18 +47,18 @@ pip install keras
 
 pip install hyperas
 
-conda install jupyter -y --quiet && mkdir /opt/notebooks
+conda install jupyter -y --quiet && mkdir /usr/notebooks
 
 apt-get install -y nano
 
 mkdir -p /nobackup
 
-#Now install OpenCV
-#SSH certificat error on 290617- need to check...
-#conda install -y --quiet -c https://conda.binstar.org/menpo opencv3
+
+#Install IRIS
+conda install -c conda-forge iris
 
 JN_PORT=$(shuf -i 8000-9000 -n 1)
 
 echo "Jupyter Notebook Server will run on port: ", $JN_PORT
-
+'
 %runscript
